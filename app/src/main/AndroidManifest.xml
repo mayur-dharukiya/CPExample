@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPExample">
+
+        <provider
+            android:authorities="com.revature.cpexample.RevatureCP.provider"
+            android:name="com.revature.cpexample.RevatureCP"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

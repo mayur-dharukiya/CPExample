@@ -76,7 +76,11 @@ fun UI()
                  val strBuild=StringBuilder()
                  while(!cursor.isAfterLast)
                  {
-                     result="${cursor.getString(cursor.getColumnIndex("id"))}-${cursor.getString(cursor.getColumnIndex("name"))}"
+                     result += "${cursor.getString(cursor.getColumnIndex("id"))}-${
+                         cursor.getString(
+                             cursor.getColumnIndex("name")
+                         )
+                     }\n"
                      cursor.moveToNext()
                  }
                  Log.d("Data","$result")

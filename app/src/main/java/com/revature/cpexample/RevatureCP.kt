@@ -22,7 +22,8 @@ class RevatureCP: ContentProvider() {
 
         //defining the authority(content URI)
 
-        const val PROVIDER_NAME="com.revature.user.provider"
+      //  const val PROVIDER_NAME="com.revature.user.provider"
+        const val PROVIDER_NAME="com.revature.cpexample.RevatureCP.provider"
 
         //defining content URI
 
@@ -42,7 +43,7 @@ class RevatureCP: ContentProvider() {
 
         const val CREATE_DB_TABLE=(
 
-                "CREATE TABLE"+ TABLE_NAME+
+                "CREATE TABLE " + TABLE_NAME +
                         "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "name TEXT NOT NULL);")
 
@@ -125,14 +126,13 @@ class RevatureCP: ContentProvider() {
 
         return c
 
-
-
-
-
     }
 
-    override fun getType(p0: Uri): String? {
-        TODO("Not yet implemented")
+    override fun getType(uri: Uri): String? {
+        return when (uriMatcher!!.match(uri)) {
+            uriCode -> "vnd.android.cursor.dir/vnd.com.revature.cpexample.provider.users"
+            else -> throw IllegalArgumentException("Unsupported URI: $uri")
+        }
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
