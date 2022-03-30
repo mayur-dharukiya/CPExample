@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 
 class RevatureCP: ContentProvider() {
@@ -34,6 +35,8 @@ class RevatureCP: ContentProvider() {
 
 
         var uriMatcher:UriMatcher?=null
+
+        private val values:HashMap<String,String>?=null
 
         //create a table
 
@@ -93,13 +96,39 @@ class RevatureCP: ContentProvider() {
     }
 
     override fun query(
-        p0: Uri,
-        p1: Array<out String>?,
-        p2: String?,
-        p3: Array<out String>?,
-        p4: String?
+        uri: Uri,
+        projection: Array<out String>?,
+        selection: String?,
+        selectionArgs: Array<out String>?,
+        sortOrder: String?
     ): Cursor? {
-        TODO("Not yet implemented")
+
+
+        var sortOrder=sortOrder
+        val qb= SQLiteQueryBuilder()
+        qb.tables= TABLE_NAME
+
+        when(uriMatcher!!.match(uri))
+        {
+            uriCode->qb.projectionMap=values
+            else-> IllegalArgumentException("Unknown URI $uri")
+        }
+
+        if(sortOrder==null || sortOrder==="")
+        {
+            sortOrder= id
+        }
+
+        val c=qb.query(db,projection,selection,selectionArgs,null,null,sortOrder)
+
+        c.setNotificationUri(context!!.contentResolver,uri)
+
+        return c
+
+
+
+
+
     }
 
     override fun getType(p0: Uri): String? {
